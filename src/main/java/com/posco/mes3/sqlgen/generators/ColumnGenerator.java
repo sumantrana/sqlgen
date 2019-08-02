@@ -1,5 +1,6 @@
 package com.posco.mes3.sqlgen.generators;
 
+import com.posco.mes3.sqlgen.util.SQLGeneratorHelper;
 import com.posco.mes3.sqlgen.util.ServiceHelper;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
@@ -24,6 +25,16 @@ public class ColumnGenerator {
         if ( table != null ){
             sqlBuilder.append(ServiceHelper.getInstance().getServiceName( table.getName()));
             sqlBuilder.append(".");
+        } else {
+            SQLGeneratorHelper sqlGeneratorHelper = SQLGeneratorHelper.getInstance();
+
+            if ( sqlGeneratorHelper.isSingleTableGen() ){
+                String tableName = sqlGeneratorHelper.getTableName();
+                sqlBuilder.append(ServiceHelper.getInstance().getServiceName( tableName ));
+                sqlBuilder.append(".");
+            }
+
+
         }
 
         sqlBuilder.append(column.getColumnName());
